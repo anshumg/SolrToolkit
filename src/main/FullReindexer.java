@@ -36,20 +36,14 @@ public class FullReindexer {
   static Options options = new Options();
 
   static {
-    final Option helpOp = Option.builder("h")
-        .longOpt("help")
-        .argName("help")
-        .required()
-        .hasArg(true)
-        .build();
-    final Option sourceOp = Option.builder("source")
+    final Option sourceOp = Option.builder("s")
         .longOpt("source")
         .argName("source")
         .desc("Name of the source collection")
         .required()
         .hasArg(true)
         .build();
-    final Option destOp = Option.builder("dest")
+    final Option destOp = Option.builder("d")
         .argName("dest")
         .longOpt("dest")
         .desc("Name of the target collection")
@@ -57,7 +51,7 @@ public class FullReindexer {
         .hasArg(true)
         .longOpt("destination")
         .build();
-    final Option zkStringOp = Option.builder("zk")
+    final Option zkStringOp = Option.builder("z")
         .argName("zk")
         .longOpt("zk")
         .desc("ZooKeeper host string")
@@ -169,11 +163,12 @@ public class FullReindexer {
   }
 
   public static void main(String[] args) throws IOException {
-    final CommandLine cli = parseCli(args);
-    if(args == nu;; | cli.hasOption("h")) {
+    if(args == null || args.length == 0) {
       help();
       System.exit(1);
     }
+
+    final CommandLine cli = parseCli(args);
 
     FullReindexer fullReindexer = new FullReindexer(cli.getOptionValue("source"),
         cli.getOptionValue("dest"),
@@ -201,7 +196,7 @@ public class FullReindexer {
 
   private static void help() {
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("myapp", options);
+    formatter.printHelp("java FullReindexer", options);
   }
 
 }
